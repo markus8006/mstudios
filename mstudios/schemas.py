@@ -1,9 +1,13 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
-class AgendamentoBase(BaseModel):
+class BaseSchemas(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+
+class AgendamentoBase(BaseSchemas):
     data: datetime
     horario_inicio: datetime
     cortes: list[str]
@@ -22,10 +26,10 @@ class AgendamentoDB(AgendamentoPublic):
     created_at: datetime
 
 
-class Funcionario(BaseModel):
+class Funcionario(BaseSchemas):
     id: int
     nome: str
 
 
-class AgendamentoPublicList(BaseModel):
-    users: list[AgendamentoPublic]
+class AgendamentoPublicList(BaseSchemas):
+    agendamentos: list[AgendamentoPublic]
